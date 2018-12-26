@@ -1,0 +1,8 @@
+nomenclature:
+  name: feed
+  verboseName: Feed
+description: Be informed and stay in the loop
+baseUrls:
+  http: feed/
+  static: feed/
+isApi: true
