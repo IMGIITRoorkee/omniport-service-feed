@@ -1,7 +1,7 @@
 from rest_framework import viewsets, mixins
 from rest_framework.permissions import IsAuthenticated
 
-from bootstrap.utils.available import available_apps
+from discovery.available import available_apps
 from feed.models import Bit
 from feed.serializers.bit import BitSerializer
 

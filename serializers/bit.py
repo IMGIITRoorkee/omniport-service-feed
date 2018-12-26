@@ -1,6 +1,5 @@
 from rest_framework import serializers
 
-from bootstrap.utils.available import available_apps
 from configuration.serializers.app.app import AppSerializer
 from feed.models import Bit
 from kernel.serializers.person import AvatarSerializer
