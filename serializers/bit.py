@@ -75,8 +75,9 @@ class BitSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         """
         Remove new_reported from the data and defer to the base implementation
+        of the function
         :param validated_data: the data sent to the serializer to create
-        :return:
+        :return: whatever the base implementation returns
         """
 
         if 'new_reported' in self.validated_data:
@@ -86,10 +87,10 @@ class BitSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         """
-
-        :param instance:
-        :param validated_data:
-        :return:
+        Handle reporting and defer to the base implementation of the function
+        :param instance: the instance being updated
+        :param validated_data: the validated data sent to the serializer
+        :return: whatever the base implementation returns
         """
 
         person = self.context.get('request').person
