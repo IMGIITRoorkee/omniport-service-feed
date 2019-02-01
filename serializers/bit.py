@@ -89,8 +89,8 @@ class BitSerializer(serializers.ModelSerializer):
         """
         Handle reporting and defer to the base implementation of the function
         :param instance: the instance being updated
-        :param validated_data: the validated data sent to the serializer
-        :return: whatever the base implementation returns
+        :param validated_data: the new data for the instance
+        :return: the updated instance
         """
 
         person = self.context.get('request').person
