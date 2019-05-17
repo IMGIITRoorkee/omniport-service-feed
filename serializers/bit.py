@@ -2,7 +2,9 @@ from rest_framework import serializers
 
 from configuration.serializers.app.app import AppSerializer
 from feed.models import Bit
-from kernel.serializers.person import AvatarSerializer
+from omniport.utils import switcher
+
+AvatarSerializer = switcher.load_serializer('kernel', 'Person', 'Avatar')
 
 
 class BitSerializer(serializers.ModelSerializer):
