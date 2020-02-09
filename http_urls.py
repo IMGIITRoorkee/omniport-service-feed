@@ -6,7 +6,7 @@ from feed.views.bit import BitViewSet
 app_name = 'feed'
 
 router = routers.SimpleRouter()
-router.register('bit', BitViewSet, base_name='bit')
+router.register('bit', BitViewSet, basename='bit')
 
 urlpatterns = [
     path('', include(router.urls)),
