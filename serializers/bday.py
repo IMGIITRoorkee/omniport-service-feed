@@ -1,11 +1,9 @@
+import swapper
 from rest_framework import serializers
-
-from configuration.serializers.app.app import AppSerializer
 from feed.models import Bit
 from omniport.utils import switcher
-
 AvatarSerializer = switcher.load_serializer('kernel', 'Person', 'Avatar')
-import swapper
+
 Person = swapper.load_model('kernel', 'Person')
 bio_info = swapper.load_model('kernel', 'BiologicalInformation')
 residential_info = swapper.load_model('kernel', 'ResidentialInformation')
