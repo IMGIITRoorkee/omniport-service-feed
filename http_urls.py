@@ -1,16 +1,13 @@
 from django.urls import path, include
 from rest_framework import routers
-from feed.views.bday import *
+from feed.views.bday import bdayViewSet, whoAmI
 from feed.views.bit import BitViewSet
-from settings.views import *
 
 app_name = 'feed'
 
 router = routers.SimpleRouter()
 router.register('bit', BitViewSet, basename='bit')
-router.register('bday-today', bdayTodayViewSet, basename='bday-today')
-router.register('bday-tom', bdayTomViewSet, basename='bday-tom')
-router.register('bday-dat', bdayDaTViewSet, basename='bday-dat')
+router.register('birthday', bdayViewSet, basename='birthday')
 
 urlpatterns = [
     path('', include(router.urls)),
