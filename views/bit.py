@@ -49,3 +49,4 @@ class BitViewSet(
         filtered_queryset = Bit.objects.filter(app_name__in=apps)
         ordered_queryset = filtered_queryset.order_by('-datetime_created')
         return ordered_queryset
+
