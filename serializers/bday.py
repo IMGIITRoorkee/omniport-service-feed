@@ -24,9 +24,7 @@ class PersonSerializer(serializers.ModelSerializer):
 
     def get_membership_set(self, instance):
         membership_set = instance.membership_set.all()
-        group=[]
-        for membership in membership_set:
-            group.append(membership.group.id)
+        group=[membership.group.id for membership in membership_set]
         return group 
 
     class Meta:
