@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework import routers
-from feed.views.bday import BirthdayViewSet, PersonalDetails
+from feed.views.birthday import BirthdayViewSet, PersonalDetails
 from feed.views.bit import BitViewSet
 
 app_name = 'feed'

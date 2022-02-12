@@ -1,17 +1,20 @@
-from django import urls
-import swapper
 import datetime
+import swapper
+
+from django import urls
 from django.core.cache import cache
 from django.http import HttpResponse
 from rest_framework import viewsets, mixins, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.generics import GenericAPIView
-from feed.serializers.bday import PersonSerializer, BiologicalInfoSerializer
+
+from feed.serializers.birthday import PersonSerializer, BiologicalInfoSerializer
 from shell.models.roles.student import Student
-from feed.constants import Cache_dict, Delta_dict, Time_midnight, Date_format
+from feed.constants import CACHE_DICT, TIME_DELTA_MAP, TIME_MIDNIGHT, DATE_FORMAT
+
 Person = swapper.load_model('kernel', 'Person')
-BiologicalInfo = swapper.load_model('kernel', 'BiologicalInformation')
+BiologicalInformation = swapper.load_model('kernel', 'BiologicalInformation')
 
 
 class PersonalDetails(
@@ -48,17 +51,20 @@ class BirthdayViewSet(
 
     def get_queryset(self):
         person_ids = Student.objects.values_list('person', flat=True)
-        param = self.request.query_params.get('bdayDay')
-        queryset = cache.get(Cache_dict[param])
-        if not queryset:
-            month = (datetime.date.today() +
-                     datetime.timedelta(days=Delta_dict[param])).month
-            day = (datetime.date.today() +
-                   datetime.timedelta(days=Delta_dict[param])).day
-            queryset = BiologicalInfo.objects.filter(
-                date_of_birth__month=month, date_of_birth__day=day).filter(person_id__in=person_ids)
-            time_now = str(datetime.datetime.now().strftime(Date_format))
-            difference = datetime.datetime.strptime(
-                Time_midnight, Date_format) - datetime.datetime.strptime(time_now, Date_format)
-            cache.set(Cache_dict[param], queryset, timeout=difference.seconds)
+        param = self.request.GET.get('bdayDay')
+        if param not in CACHE_DICT:
+            return None
+        queryset = cache.get(param, None)
+        if queryset is not None:
+            return queryset
+        month = (datetime.date.today() +
+                     datetime.timedelta(days=TIME_DELTA_MAP[param])).month
+        day = (datetime.date.today() +
+                   datetime.timedelta(days=TIME_DELTA_MAP[param])).day
+        queryset = BiologicalInformation.objects.filter(
+            date_of_birth__month=month, date_of_birth__day=day).filter(person_id__in=person_ids)
+        time_now = str(datetime.datetime.now().strftime(DATE_FORMAT))
+        difference = datetime.datetime.strptime(
+            TIME_MIDNIGHT, DATE_FORMAT) - datetime.datetime.strptime(time_now, DATE_FORMAT)
+        cache.set(param, queryset, timeout=difference.seconds)
         return queryset

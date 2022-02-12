@@ -1,9 +1,7 @@
 import swapper
 from rest_framework import serializers
 from omniport.utils import switcher
-from shell.models.institute.residence import Residence
-from shell.models.roles.student import Student
-from groups.models.membership import Membership
+
 Person = swapper.load_model('kernel', 'Person')
 BiologicalInformation = swapper.load_model('kernel', 'BiologicalInformation')
 StudentSerializer = switcher.load_serializer('kernel', 'Student')
@@ -30,6 +28,7 @@ class PersonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Person
         fields = '__all__'
+        read_only_fields = ['student']
 
 
 class BiologicalInfoSerializer(serializers.ModelSerializer):
