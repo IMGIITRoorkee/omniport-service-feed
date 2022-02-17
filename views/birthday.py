@@ -11,7 +11,7 @@ from rest_framework.generics import GenericAPIView
 
 from feed.serializers.birthday import PersonSerializer, BiologicalInfoSerializer
 from shell.models.roles.student import Student
-from feed.constants import CACHE_DICT, TIME_DELTA_MAP, TIME_MIDNIGHT, DATE_FORMAT
+from feed.constants import BIRTHDAY_CACHE_LIST, TIME_DELTA_MAP, TIME_MIDNIGHT, DATE_FORMAT
 
 Person = swapper.load_model('kernel', 'Person')
 BiologicalInformation = swapper.load_model('kernel', 'BiologicalInformation')
@@ -52,7 +52,7 @@ class BirthdayViewSet(
     def get_queryset(self):
         person_ids = Student.objects.values_list('person', flat=True)
         param = self.request.GET.get('bdayDay')
-        if param not in CACHE_DICT:
+        if param not in BIRTHDAY_CACHE_LIST:
             return None
         queryset = cache.get(param, None)
         if queryset is not None:

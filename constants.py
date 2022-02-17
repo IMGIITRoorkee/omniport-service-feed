@@ -1,7 +1,7 @@
 import datetime
 
 
-CACHE_DICT = [
+BIRTHDAY_CACHE_LIST = [
   'today', 
   'tomorrow',
   'day-after-tomorrow'
