@@ -15,20 +15,24 @@ class PersonSerializer(serializers.ModelSerializer):
     membership_set = serializers.SerializerMethodField()
 
     def get_residentialinformation(self, instance):
-        residentialinformation = instance.residentialinformation
-        if residentialinformation:
+        try:
+            residentialinformation = instance.residentialinformation
             return residentialinformation.residence.code
-        return None
+        except:
+            return None
 
     def get_membership_set(self, instance):
-        membership_set = instance.membership_set.all()
-        group=[membership.group.id for membership in membership_set]
-        return group 
+        try:
+            membership_set = instance.membership_set.all()
+            group=[membership.group.id for membership in membership_set]
+            return group
+        except:
+            return []
 
     class Meta:
         model = Person
-        fields = '__all__'
         read_only_fields = ['student']
+        exclude=('local_guardians','spouses','parents',)
 
 
 class BiologicalInfoSerializer(serializers.ModelSerializer):

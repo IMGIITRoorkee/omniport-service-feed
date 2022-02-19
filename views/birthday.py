@@ -16,7 +16,6 @@ from feed.constants import BIRTHDAY_CACHE_LIST, TIME_DELTA_MAP, TIME_MIDNIGHT, D
 Person = swapper.load_model('kernel', 'Person')
 BiologicalInformation = swapper.load_model('kernel', 'BiologicalInformation')
 
-
 class PersonalDetails(
     GenericAPIView
 ):
@@ -54,7 +53,7 @@ class BirthdayViewSet(
         param = self.request.GET.get('bdayDay')
         if param not in BIRTHDAY_CACHE_LIST:
             return None
-        queryset = cache.get(param, None)
+        queryset = cache.get(param , None)
         if queryset is not None:
             return queryset
         month = (datetime.date.today() +
