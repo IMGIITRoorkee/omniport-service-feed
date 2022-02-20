@@ -6,12 +6,14 @@ Person = swapper.load_model('kernel', 'Person')
 BiologicalInformation = swapper.load_model('kernel', 'BiologicalInformation')
 StudentSerializer = switcher.load_serializer('kernel', 'Student')
 
+
 class PersonSerializer(serializers.ModelSerializer):
     """
     Serializer for Person objects
     """
     residentialinformation = serializers.SerializerMethodField()
-    student = StudentSerializer(excluded_fields=['person','enrolment_number', 'current_semester' ])
+    student = StudentSerializer(
+        excluded_fields=['person', 'enrolment_number', 'current_semester'])
     membership_set = serializers.SerializerMethodField()
 
     def get_residentialinformation(self, instance):
@@ -24,7 +26,7 @@ class PersonSerializer(serializers.ModelSerializer):
     def get_membership_set(self, instance):
         try:
             membership_set = instance.membership_set.all()
-            group=[membership.group.id for membership in membership_set]
+            group = [membership.group.id for membership in membership_set]
             return group
         except:
             return []
@@ -32,7 +34,7 @@ class PersonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Person
         read_only_fields = ['student']
-        exclude=('local_guardians','spouses','parents',)
+        exclude = ('local_guardians', 'spouses', 'parents',)
 
 
 class BiologicalInfoSerializer(serializers.ModelSerializer):

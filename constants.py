@@ -1,17 +1,16 @@
 import datetime
 
-
 BIRTHDAY_CACHE_LIST = [
-  'today', 
-  'tomorrow',
-  'day-after-tomorrow'
+    'today',
+    'tomorrow',
+    'day-after-tomorrow'
 ]
 
 TIME_DELTA_MAP = {
-  'today':0, 
-  'tomorrow': 1, 
-  'day-after-tomorrow': 2
+    'today': 0,
+    'tomorrow': 1,
+    'day-after-tomorrow': 2
 }
 
 DATE_FORMAT = "%H:%M:%S"
-TIME_MIDNIGHT = str(datetime.time(23,59,59))
+TIME_MIDNIGHT = str(datetime.time(23, 59, 59))

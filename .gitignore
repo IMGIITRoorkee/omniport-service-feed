@@ -1,2 +1,11 @@
 # Compiled .pyc files
 __pycache__/
+
+# IntelliJ configuration
+.idea/
+
+# VSCode configuration
+.vscode/
+
+# macOS files
+.DS_Store
