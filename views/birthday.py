@@ -12,6 +12,7 @@ from feed.serializers.birthday import PersonSerializer, \
 from shell.models.roles.student import Student
 from feed.constants import BIRTHDAY_CACHE_LIST, TIME_DELTA_MAP, TIME_MIDNIGHT, \
     DATE_FORMAT
+from formula_one.enums.active_status import ActiveStatus
 
 Person = swapper.load_model('kernel', 'Person')
 BiologicalInformation = swapper.load_model('kernel', 'BiologicalInformation')
@@ -50,7 +51,7 @@ class BirthdayViewSet(
     serializer_class = BiologicalInfoSerializer
 
     def get_queryset(self):
-        person_ids = Student.objects.values_list('person', flat=True)
+        person_ids = Student.objects_filter(active_status= ActiveStatus.IS_ACTIVE).values_list('person', flat=True)
         param = self.request.GET.get('bdayDay')
 
         # Check if requested birthday day is valid
