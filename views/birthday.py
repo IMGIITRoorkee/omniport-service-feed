@@ -10,8 +10,8 @@ from rest_framework.generics import GenericAPIView
 from feed.serializers.birthday import PersonSerializer, \
     BiologicalInfoSerializer
 from shell.models.roles.student import Student
-from feed.constants import BIRTHDAY_CACHE_LIST, TIME_DELTA_MAP, TIME_MIDNIGHT, \
-    DATE_FORMAT
+from feed.constants import BIRTHDAY_CACHE_DICT, TIME_DELTA_MAP, TIME_MIDNIGHT, \
+    DATE_FORMAT, BIRTHDAY_DAY_LIST
 from formula_one.enums.active_status import ActiveStatus
 
 Person = swapper.load_model('kernel', 'Person')
@@ -49,17 +49,18 @@ class BirthdayViewSet(
     """
     permission_classes = [IsAuthenticated, ]
     serializer_class = BiologicalInfoSerializer
+    pagination_class = None
 
     def get_queryset(self):
         person_ids = Student.objects_filter(active_status= ActiveStatus.IS_ACTIVE).values_list('person', flat=True)
         param = self.request.GET.get('bdayDay')
 
         # Check if requested birthday day is valid
-        if param not in BIRTHDAY_CACHE_LIST:
+        if param not in BIRTHDAY_DAY_LIST:
             return None
 
         # Check if the queryset has been cached already
-        queryset = cache.get(param, None)
+        queryset = cache.get(BIRTHDAY_CACHE_DICT[param], None)
 
         if queryset is not None:
             return queryset
@@ -78,6 +79,6 @@ class BirthdayViewSet(
         time_now = str(datetime.now().strftime(DATE_FORMAT))
         difference = (datetime.strptime(TIME_MIDNIGHT, DATE_FORMAT) -
                       datetime.strptime(time_now, DATE_FORMAT))
-        cache.set(param, queryset, timeout=difference.seconds)
+        cache.set(BIRTHDAY_CACHE_DICT[param], queryset, timeout=difference.seconds)
 
         return queryset

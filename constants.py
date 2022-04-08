@@ -1,10 +1,16 @@
 import datetime
 
-BIRTHDAY_CACHE_LIST = [
+BIRTHDAY_DAY_LIST = [
     'today',
     'tomorrow',
     'day-after-tomorrow'
 ]
+
+BIRTHDAY_CACHE_DICT = {
+    'today' : 'birthday_today',
+    'tomorrow' : 'birthday_tomorrow',
+    'day-after-tomorrow' : 'birthday_day_after_tomorrow',
+}
 
 TIME_DELTA_MAP = {
     'today': 0,
